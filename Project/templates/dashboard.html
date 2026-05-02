@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>SkillExchange</h2>
+
+    <div>
+        <span id="userEmail"></span>
+        <a href="/profiles">Profiles</a>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="card">
+    <h2>Welcome 👋</h2>
+    <p id="welcomeText"></p>
+</div>
+
+<div class="card">
+    <h3>Add Skill</h3>
+
+    <input id="skill" placeholder="Enter skill">
+
+    <button class="btn" onclick="addSkill()">Add Skill</button>
+</div>
+
+<div class="card">
+    <h3>Your Skills</h3>
+    <ul id="mySkills"></ul>
+</div>
+
+</div>
+
+<script>
+
+// 🔐 GET CURRENT USER
+async function loadUser(){
+    const res = await fetch('/current-user');
+    const data = await res.json();
+
+    if(data.user){
+        document.getElementById('userEmail').innerText = data.user;
+        document.getElementById('welcomeText').innerText = "Logged in as " + data.user;
+    }
+}
+
+// ➕ ADD SKILL
+async function addSkill(){
+    const skill = document.getElementById('skill').value;
+
+    if(!skill) return alert("Enter skill");
+
+    const res = await fetch('/add-skill',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({skill})
+    });
+
+    const data = await res.json();
+
+    if(data.status === "success"){
+        loadMySkills();
+        document.getElementById('skill').value = "";
+    }
+}
+
+// 📦 LOAD MY SKILLS
+async function loadMySkills(){
+    const res = await fetch('/users');
+    const data = await res.json();
+
+    const user = document.getElementById('userEmail').innerText;
+
+    const myData = data.find(u => u.email === user);
+
+    const list = document.getElementById('mySkills');
+
+    list.innerHTML = myData.skills.map(s=>`
+        <li>
+            ${s}
+            <button onclick="deleteSkill('${s}')">❌</button>
+        </li>
+    `).join('');
+}
+
+// ❌ DELETE SKILL
+async function deleteSkill(skill){
+    await fetch('/delete-skill',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({skill})
+    });
+
+    loadMySkills();
+}
+
+// INIT
+loadUser().then(loadMySkills);
+
+</script>
+
+</body>
+</html>

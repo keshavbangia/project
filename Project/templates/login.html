@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>SkillExchange</h2>
+    <div>
+        <a href="/">Home</a>
+        <a href="/profiles">Profiles</a>
+    </div>
+</div>
+
+<div class="container">
+<div class="card">
+
+<h2>Login / Signup</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" placeholder="Password">
+
+<button class="btn" onclick="signup()">Signup</button>
+<button class="btn" onclick="login()">Login</button>
+
+</div>
+</div>
+
+<script>
+async function signup(){
+    await fetch('/signup',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+            email:email.value,
+            password:password.value
+        })
+    });
+
+    alert("Signup successful ✅");
+}
+
+async function login(){
+    const res = await fetch('/login-api',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+            email:email.value,
+            password:password.value
+        })
+    });
+
+    const data = await res.json();
+
+    if(data.status === "success"){
+        window.location = "/dashboard";
+    }else{
+        alert("Invalid login ❌");
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* BODY */
+body{
+    font-family:'Segoe UI', sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:#e2e8f0;
+}
+
+/* NAVBAR */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+    background:linear-gradient(90deg,#6366f1,#06b6d4);
+    color:white;
+    box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+
+.navbar h2{
+    font-weight:700;
+}
+
+.navbar a{
+    margin-left:15px;
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.navbar a:hover{
+    opacity:0.7;
+}
+
+/* HERO */
+.hero{
+    text-align:center;
+    padding:80px 20px;
+    background:linear-gradient(135deg,#6366f1,#ec4899,#06b6d4);
+    color:white;
+    border-radius:20px;
+    margin:20px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+.hero h1{
+    font-size:2.8rem;
+    font-weight:bold;
+}
+
+/* CONTAINER */
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
+}
+
+/* CARD */
+.card{
+    background:linear-gradient(145deg,#1e293b,#0f172a);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.5);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:all 0.3s ease;
+}
+
+/* HOVER EFFECT */
+.card:hover{
+    transform:translateY(-8px) scale(1.02);
+    box-shadow:0 15px 40px rgba(99,102,241,0.4);
+}
+
+/* BUTTON */
+.btn{
+    padding:10px 18px;
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.05);
+    background:linear-gradient(135deg,#4f46e5,#db2777);
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    border:none;
+    outline:none;
+    background:#0f172a;
+    color:white;
+    border:1px solid #334155;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    gap:20px;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+}
+
+/* SPINNER */
+.spinner{
+    width:40px;
+    height:40px;
+    border:5px solid #334155;
+    border-top:5px solid #ec4899;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:20px auto;
+}
+
+@keyframes spin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+    color:white;
+    padding:12px 18px;
+    border-radius:10px;
+    display:none;
+    box-shadow:0 5px 20px rgba(0,0,0,0.4);
+}

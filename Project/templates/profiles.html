@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Profiles</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>SkillExchange</h2>
+    <div>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/login-page">Login</a>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<h2>👥 Users</h2>
+
+<!-- SEARCH -->
+<input id="search" placeholder="Search users..." oninput="filterUsers()">
+
+<!-- USERS GRID -->
+<div class="grid" id="users"></div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+
+let allUsers = [];
+
+// 🔄 LOAD USERS
+async function loadUsers(){
+    try{
+        const res = await fetch('/users');
+        const data = await res.json();
+
+        allUsers = data;
+        displayUsers(data);
+    }catch{
+        document.getElementById('users').innerHTML = "<p>Error loading users ❌</p>";
+    }
+}
+
+// 📦 DISPLAY USERS
+function displayUsers(data){
+    const container = document.getElementById('users');
+
+    container.innerHTML = data.map(u=>`
+        <div class="card">
+
+            <!-- 👤 AVATAR -->
+            <div class="avatar">
+                ${u.email.charAt(0).toUpperCase()}
+            </div>
+
+            <h3>${u.email}</h3>
+
+            <p>
+                <b>Skills:</b> 
+                ${u.skills.length ? u.skills.join(', ') : 'No skills'}
+            </p>
+
+            <!-- VIEW PROFILE -->
+            <button class="btn" onclick="viewProfile('${u.email}')">
+                View Profile
+            </button>
+
+        </div>
+    `).join('');
+}
+
+// 🔍 SEARCH FILTER
+function filterUsers(){
+    const value = document.getElementById('search').value.toLowerCase();
+
+    const filtered = allUsers.filter(u =>
+        u.email.toLowerCase().includes(value)
+    );
+
+    displayUsers(filtered);
+}
+
+// 👤 VIEW PROFILE
+function viewProfile(email){
+    window.location = `/profile?email=${email}`;
+}
+
+// 🚀 INITIAL LOAD
+loadUsers();
+
+// 🎞️ SCROLL ANIMATION
+document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add("show");
+            }
+        });
+    });
+
+    document.querySelectorAll('.card').forEach(el => observer.observe(el));
+});
+
+</script>
+
+</body>
+</html>

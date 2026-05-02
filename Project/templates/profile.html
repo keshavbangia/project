@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Profile</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<div class="navbar">
+    <h2>SkillExchange</h2>
+</div>
+
+<div class="container">
+
+<div class="card fade-in">
+    <h2 id="email"></h2>
+    <h3>Skills</h3>
+    <ul id="skills"></ul>
+
+    <button class="btn" onclick="openChat()">Chat</button>
+</div>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const email = params.get('email');
+
+async function loadProfile(){
+    const res = await fetch('/users');
+    const data = await res.json();
+
+    const user = data.find(u => u.email === email);
+
+    document.getElementById('email').innerText = user.email;
+
+    document.getElementById('skills').innerHTML =
+        user.skills.map(s=>`<li>${s}</li>`).join('');
+}
+
+function openChat(){
+    window.location = `/chat?email=${email}`;
+}
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
